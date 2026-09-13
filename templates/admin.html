@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Dashboard Admin MBG{% endblock %}
+{% block content %}
+<main class="admin admin-v6">
+  <header class="admin-head admin-head-v6">
+    <div>
+      <span class="pill">ADMINISTRATOR</span>
+      <h1>Dashboard Menu MBG</h1>
+      <p>Kelola menu harian dan lihat kembali rekapan berdasarkan tanggal.</p>
+    </div>
+    <a class="btn add-menu" href="{{ url_for('tambah_menu') }}">＋ Tambah Menu</a>
+  </header>
+
+  <section class="stats-grid">
+    <div class="stat-card"><span>Total Menu</span><strong>{{ total_semua }}</strong><small>seluruh rekapan</small></div>
+    <div class="stat-card"><span>Bulan Ini</span><strong>{{ total_bulan_ini }}</strong><small>menu diunggah</small></div>
+    <div class="stat-card"><span>Menu Terbaru</span><strong class="stat-date">{% if menu_terbaru %}{{ menu_terbaru['tanggal'] | substr(8,2) }}/{{ menu_terbaru['tanggal'] | substr(5,2) }}/{{ menu_terbaru['tanggal'] | substr(0,4) }}{% else %}-{% endif %}</strong><small>pembaruan terakhir</small></div>
+  </section>
+
+  <section class="calendar-card-v6 calendar-collapsed" id="calendarBox">
+    <div class="calendar-head-v6">
+      <div><span class="eyebrow">KALENDER MENU</span><h2>{{ nama_bulan }} {{ tahun_kalender }}</h2><button class="calendar-expand" onclick="document.getElementById('calendarBox').classList.toggle('expanded')">▣ Perbesar Kalender</button><p>Pilih tanggal untuk melihat rekapan. Tanggal kosong juga dapat dibuka.</p></div>
+      <div class="month-nav"><a href="{{ url_for('admin', bulan=bulan_sebelum) }}">‹</a><a class="today-month" href="{{ url_for('admin') }}">Bulan ini</a><a href="{{ url_for('admin', bulan=bulan_berikut) }}">›</a></div>
+    </div>
+    <div class="calendar-weekdays"><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span></div>
+    <div class="calendar-grid-v6">
+      {% for week in kalender_minggu %}{% for d in week %}
+        {% set ds = d.ds %}
+        <a href="{{ url_for('admin_rekap', tanggal=ds) }}" class="calendar-day {% if d.month != kalender_tanggal_month %}outside{% endif %} {% if ds in tanggal_ada_menu %}has-menu{% else %}no-menu{% endif %}">
+          <b>{{ d.day }}</b><span>{% if ds in tanggal_ada_menu %}● Menu{% else %}Kosong{% endif %}</span>
+        </a>
+      {% endfor %}{% endfor %}
+    </div>
+    <div class="calendar-legend"><span><i class="legend-dot menu-dot"></i>Sudah upload</span><span><i class="legend-dot empty-dot"></i>Belum ada menu</span></div>
+  </section>
+
+  <section class="admin-grid">
+    <section class="recap-card">
+      <div class="section-head-v6">
+        <div><span class="eyebrow">ARSIP HARIAN</span><h2>Rekap Menu MBG</h2><p>Klik tanggal untuk membuka detail menu yang pernah diunggah.</p></div>
+        <span class="count-badge">{{ menus|length }} data</span>
+      </div>
+
+      <form class="date-filter" method="get" action="{{ url_for('admin') }}">
+        <label><span>Dari tanggal</span><input type="date" name="dari" value="{{ tanggal_dari }}"></label>
+        <label><span>Sampai tanggal</span><input type="date" name="sampai" value="{{ tanggal_sampai }}"></label>
+        <button class="btn" type="submit">Tampilkan</button>
+        {% if tanggal_dari or tanggal_sampai %}<a class="btn light-btn" href="{{ url_for('admin') }}">Reset</a>{% endif %}
+      </form>
+
+      <div class="table-wrap">
+        <table class="recap-table">
+          <thead><tr><th>Tanggal</th><th>Foto</th><th>Menu</th><th>Status</th><th>Aksi</th></tr></thead>
+          <tbody>
+          {% for m in menus %}
+            <tr>
+              <td>
+                <a class="date-link" href="{{ url_for('admin_rekap', tanggal=m['tanggal']) }}">
+                  <span class="calendar-icon">📅</span>
+                  <span><b>{{ m['tanggal'] | substr(8,2) }}/{{ m['tanggal'] | substr(5,2) }}/{{ m['tanggal'] | substr(0,4) }}</b><small>Klik untuk rekap</small></span>
+                </a>
+              </td>
+              <td>{% if m['foto'] %}<img class="table-thumb" src="{{ url_for('static', filename='uploads/' + m['foto']) }}" alt="Foto menu">{% else %}<div class="table-thumb no-photo">🍱</div>{% endif %}</td>
+              <td class="menu-cell"><b>{{ m['nama_menu'] }}</b>{% if m['deskripsi'] %}<small>{{ m['deskripsi'] }}</small>{% endif %}</td>
+              <td><span class="status active-status"><i></i> Sudah upload</span></td>
+              <td><div class="table-actions"><a class="icon-btn view" href="{{ url_for('admin_rekap', tanggal=m['tanggal']) }}">Lihat</a><a class="icon-btn edit" href="{{ url_for('edit_menu', id=m['id']) }}">Edit</a><form method="post" action="{{ url_for('hapus_menu', id=m['id']) }}" onsubmit="return confirm('Hapus menu tanggal ini?')"><button class="icon-btn delete" type="submit">Hapus</button></form></div></td>
+            </tr>
+          {% else %}
+            <tr><td colspan="5"><div class="empty-state"><span>📭</span><b>Belum ada rekapan pada rentang tanggal ini.</b><small>Tambahkan menu baru atau ubah filter tanggal.</small></div></td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="qr-card-v6">
+      <span class="eyebrow">QR OMPRENG PERMANEN</span>
+      <h2>Satu QR, menu selalu terbaru</h2>
+      <p>QR ini ditempel permanen. Setiap kali menu baru di-upload atau diedit, isi QR otomatis mengikuti <strong>pembaruan terakhir</strong>.</p>
+      <div class="qr-image-wrap"><img src="{{ url_for('qr_ompreng') }}" alt="QR Ompreng Permanen"></div>
+      <code>{{ qr_url }}</code>
+      <div class="qr-actions"><a class="btn" href="{{ url_for('qr_ompreng') }}" target="_blank">Buka QR</a><a class="btn light-btn" href="{{ url_for('qr_download') }}">Download QR</a><a class="btn light-btn" href="{{ url_for('menu_current') }}" target="_blank">Lihat Tampilan Pengguna</a></div>
+    </aside>
+  </section>
+</main>
+{% endblock %}

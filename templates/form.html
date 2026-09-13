@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}{{judul}}{% endblock %}
+{% block content %}
+<main class="admin">
+  <div class="formhead">
+    <a href="{{url_for('admin')}}">← Kembali ke Admin</a>
+    <h1>{{judul}}</h1>
+    <p>Masukkan nama makanan dipisahkan koma. Data gizi dapat diisi terpisah untuk porsi kecil dan porsi besar.</p>
+  </div>
+
+  <form class="formcard" method="post" enctype="multipart/form-data">
+    <div class="two">
+      <label>Tanggal
+        <input type="date" name="tanggal" required value="{{menu['tanggal'] if menu else request.args.get('tanggal','')}}">
+      </label>
+      <label>Foto Ompreng / Menu Utama
+        <input type="file" name="foto" accept=".jpg,.jpeg,.png,.webp">
+      </label>
+    </div>
+
+    <label>Nama Menu / Daftar Makanan
+      <input id="namaMenu" name="nama_menu" required value="{{menu['nama_menu'] if menu else ''}}" placeholder="Contoh: Nasi Putih, Ayam Panggang, Sayur, Tahu, Apel">
+    </label>
+
+    <label>Komposisi / Deskripsi
+      <textarea name="deskripsi" rows="3" placeholder="Keterangan menu (opsional)">{{menu['deskripsi'] if menu else ''}}</textarea>
+    </label>
+
+    <section class="nutrition-input-section">
+      <div class="nutrition-input-head">
+        <div>
+          <span class="eyebrow">DATA GIZI</span>
+          <h2>🥗 Gizi Porsi Kecil</h2>
+          <p>Isi lima nilai gizi untuk satu porsi kecil.</p>
+        </div>
+      </div>
+      <div class="nutrition-input-grid">
+        <label><span>Energi</span><small>kkal</small><input type="text" inputmode="decimal" name="energi_kecil" value="{{menu['energi_kecil'] if menu else ''}}" placeholder="Contoh: 517,6"></label>
+        <label><span>Protein</span><small>gram</small><input type="text" inputmode="decimal" name="protein_kecil" value="{{menu['protein_kecil'] if menu else ''}}" placeholder="Contoh: 26"></label>
+        <label><span>Lemak</span><small>gram</small><input type="text" inputmode="decimal" name="lemak_kecil" value="{{menu['lemak_kecil'] if menu else ''}}" placeholder="Contoh: 19,7"></label>
+        <label><span>Karbohidrat</span><small>gram</small><input type="text" inputmode="decimal" name="karbo_kecil" value="{{menu['karbo_kecil'] if menu else ''}}" placeholder="Contoh: 58,8"></label>
+        <label><span>Serat</span><small>gram</small><input type="text" inputmode="decimal" name="serat_kecil" value="{{menu['serat_kecil'] if menu else ''}}" placeholder="Contoh: 2,4"></label>
+      </div>
+    </section>
+
+    <section class="nutrition-input-section large">
+      <div class="nutrition-input-head">
+        <div>
+          <span class="eyebrow">DATA GIZI</span>
+          <h2>🍛 Gizi Porsi Besar</h2>
+          <p>Isi lima nilai gizi untuk satu porsi besar.</p>
+        </div>
+      </div>
+      <div class="nutrition-input-grid">
+        <label><span>Energi</span><small>kkal</small><input type="text" inputmode="decimal" name="energi_besar" value="{{menu['energi_besar'] if menu else ''}}" placeholder="Contoh: 767,7"></label>
+        <label><span>Protein</span><small>gram</small><input type="text" inputmode="decimal" name="protein_besar" value="{{menu['protein_besar'] if menu else ''}}" placeholder="Contoh: 36,1"></label>
+        <label><span>Lemak</span><small>gram</small><input type="text" inputmode="decimal" name="lemak_besar" value="{{menu['lemak_besar'] if menu else ''}}" placeholder="Contoh: 22,6"></label>
+        <label><span>Karbohidrat</span><small>gram</small><input type="text" inputmode="decimal" name="karbo_besar" value="{{menu['karbo_besar'] if menu else ''}}" placeholder="Contoh: 104,5"></label>
+        <label><span>Serat</span><small>gram</small><input type="text" inputmode="decimal" name="serat_besar" value="{{menu['serat_besar'] if menu else ''}}" placeholder="Contoh: 3,3"></label>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button class="btn" type="submit">💾 Simpan Menu</button>
+      <a class="btn secondary" href="{{url_for('admin')}}">Batal</a>
+    </div>
+  </form>
+</main>
+{% endblock %}

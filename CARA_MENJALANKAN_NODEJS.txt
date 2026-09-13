@@ -1,0 +1,12 @@
+SISTEM MENU MBG NODE.JS v9
+
+2 TAMPILAN:
+1. PENGGUNA: scan QR permanen -> langsung membuka /menu/current dan menampilkan menu terakhir yang diperbarui.
+2. ADMIN: buka http://localhost:5000/admin untuk mengelola tambah, edit, hapus, riwayat berdasarkan tanggal, kandungan gizi, foto ompreng, dan QR permanen.
+
+Jalankan:
+npm install
+npm start
+
+Pengguna di jaringan lokal menggunakan URL Network yang ditampilkan terminal.
+Tidak membutuhkan XAMPP.

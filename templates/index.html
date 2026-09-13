@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Menu MBG{% endblock %}
+{% block content %}
+<section class="hero">
+  <span class="badge">QR OMPRENG PERMANEN</span>
+  <h1>Scan satu QR untuk melihat menu MBG terbaru</h1>
+  <p>QR Code ditempel sekali pada ompreng. Admin cukup memperbarui menu setiap hari.</p>
+  <div class="hero-buttons">
+    <a class="btn" href="{{ url_for('scan') }}">📷 Scan QR</a>
+    <a class="btn secondary" href="{{ url_for('admin') }}">⚙️ Admin</a>
+  </div>
+</section>
+<h2>Riwayat Menu</h2>
+<div class="grid">
+{% for m in menus %}
+<article class="card">
+  {% if m['foto'] %}
+  <img class="food-img" src="{{ url_for('static', filename='uploads/' + m['foto']) }}">
+  {% else %}
+  <div class="food-placeholder">🍱</div>
+  {% endif %}
+  <div class="card-body">
+    <span class="code">{{ m['tanggal'] }}</span>
+    <h3>{{ m['nama_menu'] }}</h3>
+    <a class="btn small" href="{{ url_for('menu_detail', id=m['id']) }}">Lihat</a>
+  </div>
+</article>
+{% else %}
+<p>Belum ada menu. Tambahkan melalui Admin.</p>
+{% endfor %}
+</div>
+{% endblock %}

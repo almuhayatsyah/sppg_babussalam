@@ -1,0 +1,24 @@
+QR OMPRENG PERMANEN
+
+Prinsip:
+1. QR mengarah ke /menu/current.
+2. Isi /menu/current selalu mengambil menu yang terakhir diperbarui.
+3. QR PNG dibuat satu kali dan tidak berubah ketika admin mengganti menu.
+4. Untuk stiker permanen, gunakan domain HTTPS tetap.
+
+SEBELUM CETAK STIKER:
+- Set environment variable:
+  MBG_PUBLIC_URL=https://DOMAIN-ANDA.com
+- Hapus file static/qrcodes/qr_target.txt dan
+  static/qrcodes/qr_ompreng.png jika sebelumnya pernah dibuat dengan
+  alamat lokal.
+- Jalankan npm start sekali agar QR baru dibuat.
+- Cetak QR tersebut. Setelah itu, update menu tidak akan mengubah QR.
+
+PENTING:
+Jika MBG_PUBLIC_URL tidak diisi, aplikasi akan mengunci IP LAN saat
+pertama kali membuat QR. Ini hanya untuk uji coba lokal dan tidak
+disarankan untuk stiker permanen karena IP dapat berubah.
+
+Saat sudah hosting, target QR idealnya:
+  https://DOMAIN-ANDA.com/menu/current

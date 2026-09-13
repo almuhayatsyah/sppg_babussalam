@@ -1,0 +1,4 @@
+CARA MENJALANKAN SISTEM MENU MBG NODE.JS V2
+
+Node.js >= 22.5 direkomendasikan.
+Jalankan npm install lalu npm start.

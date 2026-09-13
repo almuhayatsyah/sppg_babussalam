@@ -1,0 +1,39 @@
+ALUR APLIKASI MBG
+
+1. ADMIN
+   Buka domain/IP utama:
+   http://localhost:5000/
+   atau saat hosting:
+   https://DOMAIN-ANDA.com/
+
+   URL utama selalu masuk ke:
+   /admin
+
+2. PENGGUNA
+   Pengguna tidak menggunakan halaman utama dan tidak perlu membuka /admin.
+   Pengguna scan QR permanen pada tutup ompreng.
+
+   QR mengarah ke:
+   /menu/current
+
+   /menu/current mengambil menu yang paling baru diperbarui.
+
+3. QR PERMANEN
+   QR tidak berubah ketika admin mengganti menu.
+   Jangan membuat QR baru setiap hari.
+
+4. PRODUKSI / HOSTING
+   Sebelum mencetak stiker, gunakan MBG_PUBLIC_URL dengan domain HTTPS tetap,
+   misalnya:
+   MBG_PUBLIC_URL=https://menu.sppg-anda.com
+
+   Jika sebelumnya pernah dibuat QR lokal, hapus:
+   static/qrcodes/qr_target.txt
+   static/qrcodes/qr_ompreng.png
+   lalu jalankan server sekali untuk membuat QR berdasarkan domain tersebut.
+
+CATATAN:
+Server tidak dapat mengetahui secara teknis apakah seseorang membuka
+/menu/current dengan mengetik URL atau dengan hasil scan QR. Namun semua
+entry point umum diarahkan ke Admin, sedangkan QR permanen adalah satu-satunya
+link pengguna yang ditampilkan/dicetak.

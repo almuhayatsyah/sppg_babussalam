@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Scan QR{% endblock %}
+{% block content %}
+<div class="scanner-page">
+<h1>📷 Scan QR Menu MBG</h1>
+<p>Arahkan kamera ke QR Code pada ompreng.</p>
+<div id="reader"></div>
+<div id="scan-result" class="scan-result">Menunggu QR Code...</div>
+<p class="note">Kamu juga dapat memakai kamera HP biasa untuk scan QR permanen.</p>
+</div>
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script>
+function onScanSuccess(decodedText) {
+  if (decodedText.startsWith("http://") || decodedText.startsWith("https://")) {
+    window.location.href = decodedText;
+  } else {
+    document.getElementById("scan-result").textContent = "Kode: " + decodedText;
+  }
+}
+const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: {width: 250, height: 250} }, false);
+scanner.render(onScanSuccess);
+</script>
+{% endblock %}

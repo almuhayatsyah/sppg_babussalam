@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Menu Belum Tersedia{% endblock %}
+{% block content %}
+<div class="empty">
+<h1>Menu belum tersedia</h1>
+<p>{{ kode }}</p>
+<a class="btn" href="{{ url_for('admin') }}">Ke Admin</a>
+</div>
+{% endblock %}

@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% block title %}Today's Menu — SPPG Babussalam{% endblock %}
+{% block content %}
+<div class="mbg-page page-animated">
+  <section class="hero-poster scroll-reveal" data-reveal>
+    <header class="official-head">
+      <div class="brand-area">
+        <img src="{{ url_for('static', filename='logo_bgn.png') }}" alt="Logo" class="bgn-logo">
+        <div><strong>SPPG BABUSSALAM</strong><small>Program Makan Bergizi Gratis</small></div>
+      </div>
+      <div class="today-chip">🍴 &nbsp; MENU HARI INI</div>
+    </header>
+
+    <div class="hero-copy">
+      <div class="decor decor-a">✦</div><div class="decor decor-b">✦</div>
+      <div class="hero-kicker">MAKANAN SEHAT • GENERASI HEBAT</div>
+      <h1 class="today-title"><span>TODAY'S</span><strong>MENU</strong></h1>
+      <p class="hero-slogan left">Makan<br><b>Sehat</b><br>Belajar Hebat</p>
+      <p class="hero-slogan right">Gizi Baik<br>untuk Masa<br>Depan Lebih Baik</p>
+      <div class="date-ribbon">▣ &nbsp; {{ tanggal_indonesia }}</div>
+    </div>
+
+    <div class="photo-frame scroll-item" data-reveal>
+      {% if menu['foto'] %}
+      <img src="{{ url_for('static', filename='uploads/' + menu['foto']) }}" alt="Foto menu hari ini">
+      {% else %}
+      <div class="photo-empty">🍱</div>
+      {% endif %}
+      <div class="photo-bubble">Menu sehat<br>untuk generasi hebat <span>♥</span></div>
+    </div>
+  </section>
+
+  <section class="menu-section-colorful scroll-reveal" data-reveal>
+    <div class="menu-panel-head">
+      <div>
+        <div class="eyebrow">MENU MAKANAN BERGIZI</div>
+        <h2>Menu Hari Ini</h2>
+        <p>Makanan sehat untuk generasi kuat</p>
+      </div>
+      <div class="mini-sparkle">✦</div>
+    </div>
+
+    <div class="photo-menu-list">
+      {% for item in items %}
+      <article class="menu-photo-item menu-photo-item-{{ loop.index0 }} scroll-item" data-reveal style="--delay: {{ loop.index0 * 70 }}ms">
+        <div class="menu-number">{{ '%02d'|format(loop.index) }}</div>
+        <div class="menu-photo-copy">
+          <strong>{{ item['nama'] }}</strong>
+          <small>
+            {% set n = item['nama']|lower %}
+            {% if 'nasi' in n or 'beras' in n %}Sumber karbohidrat untuk energi
+            {% elif 'telur' in n or 'ayam' in n or 'ikan' in n or 'daging' in n or 'tempe' in n or 'tahu' in n %}Sumber protein untuk pertumbuhan
+            {% elif 'sayur' in n or 'acar' in n or 'wortel' in n or 'timun' in n or 'kangkung' in n or 'bayam' in n or 'kol' in n %}Sumber serat dan vitamin
+            {% elif 'apel' in n or 'jeruk' in n or 'mangga' in n or 'pisang' in n or 'semangka' in n or 'melon' in n or 'pepaya' in n or 'nanas' in n %}Sumber vitamin yang baik untuk daya tahan tubuh
+            {% else %}Bagian dari menu bergizi seimbang{% endif %}
+          </small>
+        </div>
+        <div class="menu-decor" aria-hidden="true"></div>
+      </article>
+      {% else %}
+      <div class="empty-menu">Belum ada rincian menu untuk hari ini.</div>
+      {% endfor %}
+    </div>
+
+    <div class="menu-footer-note"><span>⌁</span> Menu bergizi, tubuh sehat, masa depan hebat <b>GOOD FOOD • BRIGHTER FUTURE</b></div>
+  </section>
+
+  <section class="nutrition-card scroll-reveal" data-reveal id="gizi">
+    <div class="nutrition-heading nutrition-animate" data-nutri-reveal>
+      <div class="heading-icon">▥</div>
+      <div><div class="eyebrow">KANDUNGAN GIZI</div><h2>Informasi Nilai Gizi</h2><p>Informasi nilai gizi menu hari ini</p></div>
+    </div>
+    <div class="portion-tabs nutrition-animate" data-nutri-reveal>
+      <button class="portion active" data-target="nutrition-small" type="button">Porsi Kecil</button>
+      <button class="portion" data-target="nutrition-large" type="button">Porsi Besar</button>
+    </div>
+
+    <div class="nutrition-panel" id="nutrition-small">
+      <div class="energy-card nutri-card nutrition-animate" data-nutri-reveal style="--nutri-delay:40ms">
+        <div class="metric-symbol energy-symbol">ϟ</div>
+        <div><span class="metric-label">Energi</span><strong>{{ menu['energi_kecil']|round(1) }}</strong><em>kkal</em><small>Kebutuhan energi dalam satu porsi</small></div>
+        <div class="energy-wave"></div>
+      </div>
+      <div class="nutrition-grid">
+        <div class="nutri-card protein-card nutrition-animate" data-nutri-reveal style="--nutri-delay:80ms"><div class="metric-symbol">◈</div><div><span>Protein</span><strong>{{ menu['protein_kecil']|round(1) }}</strong><em>gram</em><small>Membantu pertumbuhan dan perbaikan jaringan tubuh</small></div></div>
+        <div class="nutri-card fat-card nutrition-animate" data-nutri-reveal style="--nutri-delay:140ms"><div class="metric-symbol">●</div><div><span>Lemak</span><strong>{{ menu['lemak_kecil']|round(1) }}</strong><em>gram</em><small>Sumber energi dan membantu penyerapan vitamin</small></div></div>
+        <div class="nutri-card carb-card nutrition-animate" data-nutri-reveal style="--nutri-delay:200ms"><div class="metric-symbol">◆</div><div><span>Karbohidrat</span><strong>{{ menu['karbo_kecil']|round(1) }}</strong><em>gram</em><small>Sumber energi utama untuk aktivitas sehari-hari</small></div></div>
+        <div class="nutri-card fiber-card nutrition-animate" data-nutri-reveal style="--nutri-delay:260ms"><div class="metric-symbol">❧</div><div><span>Serat</span><strong>{{ menu['serat_kecil']|round(1) }}</strong><em>gram</em><small>Membantu pencernaan dan menjaga kesehatan usus</small></div></div>
+      </div>
+    </div>
+
+    <div class="nutrition-panel hidden" id="nutrition-large">
+      <div class="energy-card nutri-card nutrition-animate" data-nutri-reveal style="--nutri-delay:40ms">
+        <div class="metric-symbol energy-symbol">ϟ</div>
+        <div><span class="metric-label">Energi</span><strong>{{ menu['energi_besar']|round(1) }}</strong><em>kkal</em><small>Kebutuhan energi dalam satu porsi</small></div>
+        <div class="energy-wave"></div>
+      </div>
+      <div class="nutrition-grid">
+        <div class="nutri-card protein-card nutrition-animate" data-nutri-reveal style="--nutri-delay:80ms"><div class="metric-symbol">◈</div><div><span>Protein</span><strong>{{ menu['protein_besar']|round(1) }}</strong><em>gram</em><small>Membantu pertumbuhan dan perbaikan jaringan tubuh</small></div></div>
+        <div class="nutri-card fat-card nutrition-animate" data-nutri-reveal style="--nutri-delay:140ms"><div class="metric-symbol">●</div><div><span>Lemak</span><strong>{{ menu['lemak_besar']|round(1) }}</strong><em>gram</em><small>Sumber energi dan membantu penyerapan vitamin</small></div></div>
+        <div class="nutri-card carb-card nutrition-animate" data-nutri-reveal style="--nutri-delay:200ms"><div class="metric-symbol">◆</div><div><span>Karbohidrat</span><strong>{{ menu['karbo_besar']|round(1) }}</strong><em>gram</em><small>Sumber energi utama untuk aktivitas sehari-hari</small></div></div>
+        <div class="nutri-card fiber-card nutrition-animate" data-nutri-reveal style="--nutri-delay:260ms"><div class="metric-symbol">❧</div><div><span>Serat</span><strong>{{ menu['serat_besar']|round(1) }}</strong><em>gram</em><small>Membantu pencernaan dan menjaga kesehatan usus</small></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="important-card-premium scroll-reveal" data-reveal id="keamanan">
+    <div class="important-hero"><div class="warning-icon-premium">!</div><div><div class="eyebrow">PANDUAN KEAMANAN PANGAN</div><h2>Wajib Diperhatikan</h2><p>Mohon ikuti ketentuan berikut demi keamanan dan kesehatan bersama</p></div><div class="important-slogan">Makanan Sehat<br><b>Generasi Hebat</b></div></div>
+    <div class="notice-grid-premium">
+      <article class="notice-premium notice-blue scroll-item" data-reveal><div class="notice-no-premium">1</div><div class="notice-symbol">◷</div><div class="notice-copy-premium"><h3>Makan sekarang di sekolah</h3><p>Habiskan paling lambat 2 jam setelah ompreng diterima.<br>Makanan ini dimasak tanpa bahan pengawet.</p></div></article>
+      <article class="notice-premium notice-pink scroll-item" data-reveal><div class="notice-no-premium">2</div><div class="notice-symbol">⊘</div><div class="notice-copy-premium"><h3>Jangan dibawa pulang</h3><p>Makanan yang dibawa pulang cepat basi dan berisiko menyebabkan sakit perut atau keracunan.</p></div></article>
+      <article class="notice-premium notice-green scroll-item" data-reveal><div class="notice-no-premium">3</div><div class="notice-symbol">⌁</div><div class="notice-copy-premium"><h3>Ompreng dikembalikan ke petugas</h3><p>Setelah selesai makan, kembalikan ompreng kepada petugas.</p></div></article>
+    </div>
+    <div class="important-footer-premium"><strong>Bersama wujudkan generasi sehat, cerdas, dan berprestasi</strong><small>SPPG BABUSSALAM • SISTEM INFORMASI MENU MBG</small></div>
+  </section>
+</div>
+
+<style>
+:root{--blue:#0759ae;--navy:#092f69;--sky:#eaf6ff;--yellow:#ffd84f;--ink:#102f53;--muted:#5e7891}
+.mbg-page{width:min(760px,100%);margin:0 auto;background:#edf7ff;overflow:hidden;color:var(--ink);font-family:Inter,Arial,sans-serif}
+.hero-poster{background:linear-gradient(155deg,#064da2,#0b63b8 62%,#1776cb);color:#fff;padding-bottom:20px;position:relative;overflow:hidden}
+.hero-poster:before,.hero-poster:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.055);pointer-events:none}.hero-poster:before{width:360px;height:360px;right:-180px;top:80px}.hero-poster:after{width:250px;height:250px;left:-160px;bottom:20px}
+.official-head{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:13px 20px 0}.brand-area{display:flex;align-items:center;gap:9px}.bgn-logo{width:48px;height:48px;object-fit:contain}.brand-area b{display:block;font-size:15px;font-weight:900;letter-spacing:.1px}.brand-area small{display:block;font-size:8.5px;margin-top:2px;opacity:.95}.today-chip{background:var(--yellow);color:#153d72;padding:9px 16px;border-radius:999px;font-size:10px;font-weight:900;box-shadow:0 5px 16px #002e6a3b}
+.hero-copy{position:relative;text-align:center;padding:28px 18px 4px}.hero-kicker{font-size:9px;font-weight:900;letter-spacing:2.2px;opacity:.82;margin-bottom:8px}.today-title{margin:0;font-family:Arial Black,Inter,sans-serif;line-height:.78;letter-spacing:-4px;text-transform:uppercase;position:relative;z-index:2}.today-title span{display:block;font-size:60px;color:#fff;text-shadow:0 4px 0 #063c80,0 9px 0 #032e6a80,0 15px 24px #001c442d}.today-title strong{display:block;font-size:64px;color:var(--yellow);text-shadow:0 4px 0 #ad7400,0 9px 0 #593a0080,0 15px 24px #001c442d;position:relative}.today-title strong:after{content:"";display:block;width:105px;height:6px;background:var(--yellow);border-radius:50%;margin:6px auto 0;transform:rotate(-2deg)}
+.date-ribbon{width:max-content;max-width:86%;margin:18px auto 3px;padding:7px 17px;border:1.5px solid #4ba8ef;border-radius:999px;background:#2380d9;color:#fff;font-size:11.5px;font-weight:900;box-shadow:inset 0 1px #ffffff45,0 7px 18px #002e6a30}.hero-slogan{position:absolute;top:90px;font-size:12px;line-height:1.25;font-style:italic;opacity:.88;text-align:left;transform:rotate(-5deg)}.hero-slogan.left{left:25px}.hero-slogan.right{right:25px;text-align:right;transform:rotate(5deg)}.hero-slogan b{color:#ffd84f}.decor{position:absolute;color:#ffd84f;font-size:30px}.decor-a{left:22%;top:30px;transform:rotate(-20deg)}.decor-b{right:20%;top:25px;transform:rotate(22deg)}
+.photo-frame{position:relative;margin:13px 20px 0;border:7px solid #fff;border-radius:28px;overflow:hidden;background:#c9d9e5;box-shadow:0 18px 38px #001d4f55;z-index:2}.photo-frame img{display:block;width:100%;height:355px;object-fit:cover}.photo-empty{height:355px;display:grid;place-items:center;font-size:80px}.photo-bubble{position:absolute;right:12px;bottom:12px;background:#fff;color:#0759ae;padding:9px 13px;border-radius:20px 20px 6px 20px;font-size:10px;font-weight:900;text-align:center;box-shadow:0 8px 18px #123b651f}.photo-bubble span{color:#ffbf22}
+.menu-section-colorful,.nutrition-card,.important-card-premium{margin:16px 14px 0;background:#fff;border-radius:24px;box-shadow:0 12px 30px #123b6518}.menu-section-colorful{padding:19px 16px 15px}.menu-panel-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #dce9f2;padding:0 3px 13px}.eyebrow{font-size:8.5px;font-weight:900;letter-spacing:2px;color:#0c6dc0}.menu-panel-head h2{font-size:23px;margin:5px 0 3px;color:#102f53;letter-spacing:-.5px}.menu-panel-head p{font-size:9.5px;color:#70869a;margin:0}.mini-sparkle{color:#ffd14b;font-size:24px}.photo-menu-list{display:grid;gap:9px;margin-top:13px}.menu-photo-item{display:grid;grid-template-columns:50px minmax(0,1fr);align-items:center;min-height:84px;padding:8px 12px 8px 8px;border-radius:18px;border:1px solid #d9e7f1;overflow:hidden;position:relative;box-shadow:0 6px 16px #16466f0d;transition:transform .25s ease,box-shadow .25s ease}.menu-photo-item-0{background:linear-gradient(100deg,#edf7ff,#f8fbff)}.menu-photo-item-1{background:linear-gradient(100deg,#fff7e8,#fffaf3)}.menu-photo-item-2{background:linear-gradient(100deg,#ecfbf3,#f8fffb)}.menu-photo-item-3{background:linear-gradient(100deg,#fff0f6,#fff8fb)}.menu-photo-item-4{background:linear-gradient(100deg,#f1efff,#faf9ff)}.menu-number{width:43px;height:43px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid #cfe2f2;color:#0759ae;font-size:12px;font-weight:950;z-index:1}.menu-photo-copy{min-width:0;display:flex;flex-direction:column;gap:4px;z-index:1}.menu-photo-copy strong{font-size:15px;color:#102f53;line-height:1.25}.menu-photo-copy small{font-size:9.5px;color:#607d96;line-height:1.35}.menu-decor{position:absolute;right:-20px;bottom:-34px;width:135px;height:80px;border-radius:50% 0 0 0;background:rgba(255,255,255,.35);transform:rotate(-8deg)}.menu-photo-item-1 .menu-decor{background:#ffe5a4}.menu-photo-item-2 .menu-decor{background:#bfeecd}.menu-photo-item-3 .menu-decor{background:#ffc8df}.menu-photo-item-4 .menu-decor{background:#d5cfff}.menu-footer-note{margin-top:13px;padding:10px 12px;border-radius:15px;background:linear-gradient(90deg,#e9f5ff,#f6fbff);border:1px solid #d6e9f7;color:#1468b2;font-size:9.5px;font-weight:700;display:flex;align-items:center;gap:8px}.menu-footer-note b{margin-left:auto;font-size:7.5px;letter-spacing:1.2px}.empty-menu{padding:24px;text-align:center;color:#718494;font-size:11px}
+.nutrition-card{padding:19px 16px}.nutrition-heading{display:flex;gap:12px;align-items:center}.heading-icon{width:44px;height:44px;border-radius:14px;background:#e7f3ff;color:#0b68b8;display:grid;place-items:center;font-size:22px}.nutrition-heading h2{margin:3px 0 2px;font-size:22px;letter-spacing:-.4px}.nutrition-heading p{margin:0;color:#73879a;font-size:9.5px}.portion-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:#edf3f8;padding:4px;border-radius:13px;margin-top:15px}.portion{border:0;background:transparent;border-radius:10px;padding:11px;font-weight:900;color:#71808b;cursor:pointer;font:inherit;font-size:11px}.portion.active{background:#0b69bd;color:#fff;box-shadow:0 7px 17px #0b69bd35}.nutrition-panel{padding-top:11px}.hidden{display:none}.energy-card{display:grid;grid-template-columns:58px 1fr;align-items:center;gap:15px;padding:17px;border-radius:20px;background:linear-gradient(110deg,#fff8e8,#fffdf7);border:1px solid #f4dfaa;position:relative;overflow:hidden}.metric-symbol{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#eaf5ff;color:#0b68b8;font-size:23px;font-weight:900}.energy-symbol{background:#fff0ca;color:#f5a500;font-size:31px}.metric-label,.nutri-card span{display:block;font-size:13px;font-weight:900;color:#102f53}.energy-card strong{display:inline-block;color:#0759ae;font-size:35px;line-height:1;margin:5px 5px 0 0}.energy-card em,.nutri-card em{font-style:normal;font-size:12px;font-weight:800;color:#6f8293}.energy-card small,.nutri-card small{display:block;margin-top:4px;color:#71869a;font-size:8.5px;line-height:1.4}.energy-wave{position:absolute;width:150px;height:80px;right:-25px;bottom:-38px;border-radius:50%;background:#e9f3ff}.nutrition-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:9px}.nutri-card{padding:15px;border-radius:17px;border:1px solid #dfeaf2;background:#fbfdff;position:relative;overflow:hidden}.nutri-card strong{display:block;font-size:26px;color:#0759ae;line-height:1.05;margin-top:5px}.nutri-card .metric-symbol{width:42px;height:42px;margin-bottom:8px}.protein-card{background:linear-gradient(145deg,#fff6fa,#fff)}.fat-card{background:linear-gradient(145deg,#f1fff0,#fff)}.carb-card{background:linear-gradient(145deg,#eef7ff,#fff)}.fiber-card{background:linear-gradient(145deg,#f5f0ff,#fff)}
+.important-card-premium{overflow:hidden;border:1px solid #efdfbd;background:#fff}.important-hero{display:flex;align-items:center;gap:12px;padding:18px 17px;background:linear-gradient(110deg,#fff9ec,#fffef9);border-bottom:1px solid #f1e5cf}.warning-icon-premium{width:45px;height:45px;border-radius:14px;background:#fff0c9;color:#c98100;display:grid;place-items:center;font-weight:1000;font-size:25px}.important-hero h2{margin:3px 0;font-size:22px;color:#5e4218}.important-hero p{margin:0;color:#75828a;font-size:9.5px}.important-slogan{margin-left:auto;color:#e89b0d;font-size:11px;font-style:italic;text-align:right;line-height:1.25;transform:rotate(-3deg)}.notice-grid-premium{display:grid;gap:9px;padding:12px 14px}.notice-premium{display:grid;grid-template-columns:34px 50px minmax(0,1fr);gap:11px;align-items:center;padding:11px;border-radius:17px;border:1px solid #dbe9f3;min-height:90px}.notice-blue{background:#eff8ff}.notice-pink{background:#fff2f7}.notice-green{background:#effcf4}.notice-no-premium{width:32px;height:32px;border-radius:50%;background:#0759ae;color:#fff;display:grid;place-items:center;font-weight:900}.notice-symbol{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;background:#dcefff;color:#0870cb;font-size:28px}.notice-pink .notice-symbol{background:#ffe0ea;color:#e34669}.notice-green .notice-symbol{background:#dff5e7;color:#2e9a59}.notice-copy-premium h3{margin:0 0 4px;font-size:13px;color:#173b62}.notice-copy-premium p{margin:0;color:#65798a;font-size:9.5px;line-height:1.5}.important-footer-premium{margin:0 14px 14px;padding:11px 13px;border-radius:14px;background:#eaf6ff;color:#0a66b4;display:flex;justify-content:space-between;gap:12px;align-items:center}.important-footer-premium strong{font-size:9.5px}.important-footer-premium small{font-size:7.5px;letter-spacing:1.1px}
+.page-animated [data-reveal]{opacity:0;transform:translateY(28px) scale(.985);transition:opacity .62s cubic-bezier(.22,1,.36,1),transform .62s cubic-bezier(.22,1,.36,1);will-change:opacity,transform}.page-animated [data-reveal].is-visible{opacity:1;transform:none}.page-animated .menu-photo-item[data-reveal]{transition-delay:var(--delay,0ms)}
+/* Kandungan gizi: animasi lembut yang diputar ulang setiap kali kembali masuk viewport */
+.nutrition-animate{opacity:0;transform:translateY(34px) scale(.965);filter:blur(2px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1),filter .7s ease;transition-delay:var(--nutri-delay,0ms);will-change:opacity,transform,filter}.nutrition-animate.nutri-visible{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+.nutrition-card .energy-card.nutri-visible{box-shadow:0 12px 30px rgba(245,165,0,.10)}
+.nutrition-card .nutri-card{transition-property:opacity,transform,filter,box-shadow}
+@media(prefers-reduced-motion:reduce){.nutrition-animate{opacity:1;transform:none;filter:none;transition:none!important}}
+@media(max-width:560px){.official-head{padding:10px 12px 0}.bgn-logo{width:42px;height:42px}.brand-area b{font-size:12px}.brand-area small{font-size:7px}.today-chip{padding:7px 10px;font-size:8px}.hero-copy{padding-top:24px}.today-title span{font-size:46px;letter-spacing:-3px}.today-title strong{font-size:50px}.hero-slogan{display:none}.date-ribbon{font-size:10px;padding:7px 13px;margin-top:16px}.photo-frame{margin:11px 12px 0;border-width:6px;border-radius:23px}.photo-frame img,.photo-empty{height:300px}.photo-bubble{font-size:8px;padding:7px 10px}.menu-section-colorful,.nutrition-card,.important-card-premium{margin-left:10px;margin-right:10px;border-radius:21px}.menu-section-colorful{padding:16px 12px 13px}.menu-panel-head h2{font-size:20px}.menu-photo-item{grid-template-columns:43px minmax(0,1fr);min-height:78px;padding:8px}.menu-number{width:38px;height:38px;font-size:10px}.menu-photo-copy strong{font-size:13px}.menu-photo-copy small{font-size:8.5px}.menu-footer-note{font-size:8.5px}.menu-footer-note b{display:none}.nutrition-card{padding:16px 12px}.nutrition-heading h2{font-size:19px}.nutrition-grid{gap:8px}.nutri-card{padding:12px}.nutri-card strong{font-size:22px}.nutri-card small{font-size:7.5px}.energy-card{grid-template-columns:48px 1fr;padding:14px;gap:11px}.energy-card strong{font-size:30px}.metric-symbol{width:44px;height:44px}.important-hero{padding:15px 13px}.important-slogan{display:none}.notice-premium{grid-template-columns:30px 44px minmax(0,1fr);gap:8px;min-height:80px}.notice-symbol{width:44px;height:44px}.notice-copy-premium h3{font-size:11.5px}.notice-copy-premium p{font-size:8.5px}.important-footer-premium{margin:0 11px 11px}.important-footer-premium small{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.page-animated [data-reveal]{opacity:1;transform:none;transition:none!important}}
+
+/* v29 — menu lebih playful, rapi, dan selaras dengan animasi kandungan gizi */
+.menu-section-colorful{position:relative;isolation:isolate;background:linear-gradient(145deg,#ffffff 0%,#f8fbff 72%,#f2f8ff 100%);border:1px solid #e3eef8;box-shadow:0 16px 38px rgba(25,83,130,.12);padding:21px 17px 16px}
+.menu-section-colorful:before{content:"";position:absolute;z-index:-1;width:130px;height:130px;right:-52px;top:-48px;border-radius:50%;background:linear-gradient(135deg,rgba(255,216,79,.26),rgba(255,216,79,0));pointer-events:none}
+.menu-section-colorful:after{content:"";position:absolute;z-index:-1;width:90px;height:90px;left:-42px;bottom:58px;border-radius:50%;background:linear-gradient(135deg,rgba(123,207,255,.20),rgba(123,207,255,0));pointer-events:none}
+.menu-panel-head{align-items:center;padding:0 4px 15px;border-bottom:1px solid #e3edf5}
+.menu-panel-head>div:first-child{position:relative}
+.menu-panel-head>div:first-child:after{content:"";position:absolute;left:0;bottom:-10px;width:42px;height:3px;border-radius:99px;background:linear-gradient(90deg,#0b69bd,#ffd84f)}
+.menu-panel-head h2{font-family:Inter,Arial,sans-serif;font-size:24px;font-weight:900;letter-spacing:-.7px;margin:4px 0 3px;color:#123a67}
+.menu-panel-head p{font-size:10px;color:#71869a}
+.mini-sparkle{width:38px;height:38px;border-radius:13px;background:linear-gradient(145deg,#eaf6ff,#fff7d9);border:1px solid #dbeaf5;color:#0b69bd;display:grid;place-items:center;font-size:18px;box-shadow:0 7px 15px rgba(27,93,145,.10)}
+.photo-menu-list{gap:10px;margin-top:15px}
+.menu-photo-item{grid-template-columns:54px minmax(0,1fr);min-height:82px;padding:9px 14px 9px 9px;border-radius:20px;border:1px solid rgba(183,211,232,.72);box-shadow:0 7px 18px rgba(21,73,115,.07);transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .65s cubic-bezier(.22,1,.36,1),box-shadow .3s ease,border-color .3s ease;overflow:hidden}
+.menu-photo-item:before{content:"";position:absolute;width:86px;height:86px;right:-34px;top:-33px;border-radius:50%;background:rgba(255,255,255,.55);pointer-events:none}
+.menu-photo-item:after{content:"";position:absolute;width:10px;height:10px;right:22px;bottom:13px;border-radius:50%;background:rgba(255,255,255,.72);box-shadow:14px -9px 0 rgba(255,255,255,.48),27px 1px 0 rgba(255,255,255,.38);pointer-events:none}
+.menu-photo-item:hover{transform:translateY(-2px)!important;box-shadow:0 11px 24px rgba(21,73,115,.12);border-color:#c5dfef}
+.menu-photo-item-0{background:linear-gradient(110deg,#edf7ff 0%,#f8fcff 72%,#e9f5ff 100%)}
+.menu-photo-item-1{background:linear-gradient(110deg,#fff7e8 0%,#fffdf8 72%,#fff0cb 100%)}
+.menu-photo-item-2{background:linear-gradient(110deg,#edfbf4 0%,#fbfffd 72%,#ddf7e9 100%)}
+.menu-photo-item-3{background:linear-gradient(110deg,#fff0f6 0%,#fffafd 72%,#ffe3ef 100%)}
+.menu-photo-item-4{background:linear-gradient(110deg,#f1efff 0%,#fbfaff 72%,#e9e4ff 100%)}
+.menu-number{width:44px;height:44px;border:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.75),0 5px 12px rgba(30,89,137,.10);font-size:11px;font-weight:950;transition:transform .55s cubic-bezier(.22,1,.36,1)}
+.menu-photo-item-0 .menu-number{background:#d8ecff;color:#0866b8}
+.menu-photo-item-1 .menu-number{background:#ffe6ad;color:#b36b00}
+.menu-photo-item-2 .menu-number{background:#ccefdc;color:#16834d}
+.menu-photo-item-3 .menu-number{background:#ffd5e6;color:#d63c70}
+.menu-photo-item-4 .menu-number{background:#ddd5ff;color:#5731bd}
+.menu-photo-item.is-visible .menu-number{transform:rotate(-4deg) scale(1.04)}
+.menu-photo-copy{gap:4px;padding-right:20px}
+.menu-photo-copy strong{font-family:Inter,Arial,sans-serif;font-size:15.5px;font-weight:850;color:#12345b;letter-spacing:-.15px}
+.menu-photo-copy small{font-family:Inter,Arial,sans-serif;font-size:9.5px;color:#637d95;line-height:1.4}
+.menu-decor{right:-6px;bottom:-36px;width:120px;height:65px;opacity:.72;border-radius:60% 0 0 0;transform:rotate(-8deg)}
+.menu-photo-item-0 .menu-decor{background:#cfe8ff}.menu-photo-item-1 .menu-decor{background:#ffe2a0}.menu-photo-item-2 .menu-decor{background:#bcebd0}.menu-photo-item-3 .menu-decor{background:#ffc5dd}.menu-photo-item-4 .menu-decor{background:#d2c9ff}
+.menu-footer-note{margin-top:14px;padding:11px 13px;border-radius:16px;background:linear-gradient(90deg,#edf7ff,#fff);border:1px solid #dcecf7;color:#1a69ae;font-size:9.5px;font-weight:750;box-shadow:0 5px 13px rgba(29,89,132,.05)}
+.menu-footer-note span{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#e0f1ff;color:#0b69bd}
+/* arah animasi: naik dari bawah saat turun, dari atas saat naik */
+.page-animated .menu-photo-item[data-reveal]{transition-delay:var(--delay,0ms)}
+.page-animated .menu-photo-item[data-reveal].is-visible{animation:none}
+@media(max-width:560px){.menu-section-colorful{padding:17px 12px 14px}.menu-panel-head{padding-bottom:14px}.menu-panel-head h2{font-size:21px}.menu-panel-head p{font-size:9px}.mini-sparkle{width:34px;height:34px;border-radius:12px}.photo-menu-list{gap:9px;margin-top:14px}.menu-photo-item{grid-template-columns:49px minmax(0,1fr);min-height:76px;padding:8px 11px 8px 8px;border-radius:18px}.menu-number{width:40px;height:40px;font-size:10px}.menu-photo-copy strong{font-size:13.5px}.menu-photo-copy small{font-size:8.3px}.menu-footer-note{font-size:8.5px;padding:10px 11px}}
+
+</style>
+<script>
+(function(){
+  const root=document.querySelector('.mbg-page'); if(!root) return;
+  document.documentElement.style.scrollBehavior='smooth';
+  const els=[...root.querySelectorAll('[data-reveal]')];
+  let lastY=window.scrollY;
+  const io=new IntersectionObserver((entries)=>{
+    const direction=window.scrollY>=lastY?'down':'up';
+    lastY=window.scrollY;
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const el=entry.target;
+        el.classList.remove('is-visible');
+        el.style.transform=direction==='up'?'translateY(-28px) scale(.985)':'translateY(28px) scale(.985)';
+        void el.offsetWidth;
+        el.classList.add('is-visible');
+        el.style.transform='';
+      } else { entry.target.classList.remove('is-visible'); }
+    });
+  },{threshold:.12,rootMargin:'-5% 0px -8% 0px'});
+  els.forEach(el=>io.observe(el));
+
+  // Animasi khusus kandungan gizi: reset saat keluar viewport, sehingga
+  // setiap scroll naik/turun akan memutar animasi kembali.
+  const nutriEls=[...root.querySelectorAll('[data-nutri-reveal]')];
+  const nutriIO=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const el=entry.target;
+        el.classList.remove('nutri-visible');
+        void el.offsetWidth;
+        el.classList.add('nutri-visible');
+      }else{
+        entry.target.classList.remove('nutri-visible');
+      }
+    });
+  },{threshold:0.16,rootMargin:'-4% 0px -10% 0px'});
+  nutriEls.forEach(el=>nutriIO.observe(el));
+
+  document.querySelectorAll('.portion').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.portion').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.nutrition-panel').forEach(p=>p.classList.add('hidden'));
+    btn.classList.add('active');
+    const panel=document.getElementById(btn.dataset.target);
+    panel?.classList.remove('hidden');
+    panel?.querySelectorAll('[data-nutri-reveal]').forEach(el=>{
+      el.classList.remove('nutri-visible');
+      void el.offsetWidth;
+      el.classList.add('nutri-visible');
+    });
+  }));
+})();
+</script>
+{% endblock %}

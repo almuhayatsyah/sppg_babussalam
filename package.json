@@ -1,0 +1,20 @@
+{
+  "name": "sistem-menu-mbg",
+  "version": "3.1.2",
+  "description": "Sistem Informasi Menu MBG - Node.js/Express menggunakan node:sqlite bawaan Node.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "multer": "^2.0.2",
+    "nunjucks": "^3.2.4",
+    "qrcode": "^1.5.4"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}

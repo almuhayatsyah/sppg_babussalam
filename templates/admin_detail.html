@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Rekap Menu {{ tanggal }}{% endblock %}
+{% block content %}
+<main class="admin admin-v6">
+  <header class="detail-topbar">
+    <a class="back-link" href="{{ url_for('admin', dari=tanggal_bulan ~ '-01', sampai=tanggal) }}">← Kembali ke Rekap</a>
+    <a class="btn add-menu" href="{{ url_for('tambah_menu') }}">＋ Tambah Menu</a>
+  </header>
+
+  <section class="detail-card-v6">
+    <div class="detail-title">
+      <div><span class="eyebrow">REKAP MENU HARIAN</span><h1>Detail Menu MBG</h1></div>
+      {% if menu %}<span class="status active-status"><i></i> Sudah upload</span>{% else %}<span class="status empty-status"><i></i> Belum ada menu</span>{% endif %}
+    </div>
+
+    <a class="big-date-link" href="{{ url_for('admin') }}?dari={{ tanggal }}&sampai={{ tanggal }}">📅 {{ tanggal | substr(8,2) }}/{{ tanggal | substr(5,2) }}/{{ tanggal | substr(0,4) }} <small>klik tanggal untuk melihat rekap</small></a>
+      {% if menu %}<div class="update-meta">↻ Terakhir diperbarui: <strong>{{ menu['updated_at'] or menu['dibuat'] }}</strong> • Menu ini tetap tersimpan di riwayat</div>{% endif %}
+
+    {% if menu %}
+      <div class="detail-layout">
+        <div class="detail-photo">{% if menu['foto'] %}<img src="{{ url_for('static', filename='uploads/' + menu['foto']) }}" alt="Foto makanan">{% else %}<div class="photo-placeholder">🍱<span>Belum ada foto</span></div>{% endif %}</div>
+        <div class="detail-content">
+          <div class="detail-section"><h2>Menu Makanan</h2><div class="admin-menu-list">{% if items %}{% for item in items %}<div class="admin-menu-row"><span>{{ '%02d'|format(loop.index) }}</span><strong>{{ item['nama'] }}</strong></div>{% endfor %}{% else %}{% for item in menu['nama_menu'].replace(';', ',').split(',') %}{% if item|trim %}<div class="admin-menu-row"><span>{{ '%02d'|format(loop.index) }}</span><strong>{{ item|trim }}</strong></div>{% endif %}{% endfor %}{% endif %}</div>{% if menu['deskripsi'] %}<p class="detail-description">{{ menu['deskripsi'] }}</p>{% endif %}</div>
+          <div class="nutrition-admin-grid">
+            <div class="nutrition-admin"><h3>Porsi Kecil</h3><p>Energi <b>{{ menu['energi_kecil'] }} kkal</b></p><p>Protein <b>{{ menu['protein_kecil'] }} g</b></p><p>Lemak <b>{{ menu['lemak_kecil'] }} g</b></p><p>Karbohidrat <b>{{ menu['karbo_kecil'] }} g</b></p><p>Serat <b>{{ menu['serat_kecil'] }} g</b></p></div>
+            <div class="nutrition-admin"><h3>Porsi Besar</h3><p>Energi <b>{{ menu['energi_besar'] }} kkal</b></p><p>Protein <b>{{ menu['protein_besar'] }} g</b></p><p>Lemak <b>{{ menu['lemak_besar'] }} g</b></p><p>Karbohidrat <b>{{ menu['karbo_besar'] }} g</b></p><p>Serat <b>{{ menu['serat_besar'] }} g</b></p></div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-actions"><a class="btn" href="{{ url_for('edit_menu', id=menu['id']) }}">Edit Menu</a><a class="btn light-btn" href="{{ url_for('menu_detail', id=menu['id']) }}" target="_blank">Preview Pengguna</a><form method="post" action="{{ url_for('hapus_menu', id=menu['id']) }}" onsubmit="return confirm('Hapus menu tanggal ini?')"><button class="btn danger" type="submit">Hapus Menu</button></form></div>
+    {% else %}
+      <div class="empty-detail"><span>📅</span><h2>Tidak ada menu dalam tanggal ini</h2><p>Belum ada menu MBG yang diunggah untuk {{ tanggal | substr(8,2) }}/{{ tanggal | substr(5,2) }}/{{ tanggal | substr(0,4) }}.</p><a class="btn" href="{{ url_for('tambah_menu') }}?tanggal={{ tanggal }}">＋ Tambah Menu Tanggal Ini</a></div>
+    {% endif %}
+  </section>
+</main>
+{% endblock %}
