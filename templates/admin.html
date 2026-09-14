@@ -28,8 +28,8 @@
     <div class="calendar-weekdays"><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span></div>
     <div class="calendar-grid-v6">
       {% for week in kalender_minggu %}{% for d in week %}
-        {% set ds = d.ds %}
-        <a href="{{ url_for('admin_rekap', tanggal=ds) }}" class="calendar-day {% if d.month != kalender_tanggal_month %}outside{% endif %} {% if ds in tanggal_ada_menu %}has-menu{% else %}no-menu{% endif %}">
+        {% set ds = d.isoformat() %}
+        <a href="{{ url_for('admin_rekap', tanggal=ds) }}" class="calendar-day {% if d.month != kalender_tanggal.month %}outside{% endif %} {% if ds in tanggal_ada_menu %}has-menu{% else %}no-menu{% endif %}">
           <b>{{ d.day }}</b><span>{% if ds in tanggal_ada_menu %}● Menu{% else %}Kosong{% endif %}</span>
         </a>
       {% endfor %}{% endfor %}

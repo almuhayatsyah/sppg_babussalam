@@ -3,7 +3,7 @@
 {% block content %}
 <main class="admin admin-v6">
   <header class="detail-topbar">
-    <a class="back-link" href="{{ url_for('admin', dari=tanggal_bulan ~ '-01', sampai=tanggal) }}">← Kembali ke Rekap</a>
+    <a class="back-link" href="{{ url_for('admin', bulan=tanggal | substr(0,7)) }}">← Kembali ke Kalender</a>
     <a class="btn add-menu" href="{{ url_for('tambah_menu') }}">＋ Tambah Menu</a>
   </header>
 
