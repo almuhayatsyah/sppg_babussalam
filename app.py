@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, send_file, session
 from functools import wraps
 from pathlib import Path
+from PIL import Image
 import sqlite3
 import qrcode
 import socket
 import os
+import io
 import calendar
 from datetime import date, datetime
 from werkzeug.utils import secure_filename
@@ -42,6 +44,22 @@ def safe_float(value, default=0.0):
         return float(value or 0)
     except (ValueError, TypeError):
         return default
+
+def compress_image(file_obj, save_path, max_size=(800, 800), quality=75):
+    """Kompres dan resize gambar upload. Selalu disimpan sebagai JPEG."""
+    img = Image.open(file_obj)
+    # Konversi ke RGB agar bisa disimpan sebagai JPEG (hapus alpha channel)
+    if img.mode in ('RGBA', 'P', 'LA'):
+        background = Image.new('RGB', img.size, (255, 255, 255))
+        if img.mode == 'P':
+            img = img.convert('RGBA')
+        background.paste(img, mask=img.split()[-1] if img.mode in ('RGBA', 'LA') else None)
+        img = background
+    elif img.mode != 'RGB':
+        img = img.convert('RGB')
+    # Resize jika lebih besar dari max_size (pertahankan rasio aspek)
+    img.thumbnail(max_size, Image.LANCZOS)
+    img.save(save_path, 'JPEG', quality=quality, optimize=True)
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -287,8 +305,8 @@ def save_menu_items(conn, menu_id, names, files=None, old_rows=None):
             ext = Path(uploaded.filename).suffix.lower()
             if ext not in ['.jpg', '.jpeg', '.png', '.webp']:
                 raise ValueError('Format foto makanan harus JPG, JPEG, PNG, atau WEBP.')
-            foto_nama = secure_filename(f'menuitem_{menu_id}_{idx}{ext}')
-            uploaded.save(UPLOAD_DIR / foto_nama)
+            foto_nama = secure_filename(f'menuitem_{menu_id}_{idx}.jpg')
+            compress_image(uploaded, UPLOAD_DIR / foto_nama)
         elif idx <= len(old_rows) and old_rows[idx-1]['nama'].strip().lower() == nama.strip().lower() and old_rows[idx-1]['foto']:
             foto_nama = old_rows[idx-1]['foto']
         else:
@@ -310,8 +328,8 @@ def tambah_menu():
             if ext not in [".jpg", ".jpeg", ".png", ".webp"]:
                 flash("Format foto harus JPG, JPEG, PNG, atau WEBP.", "error")
                 return redirect(request.url)
-            foto_nama = secure_filename(f"menu_{tanggal}{ext}")
-            foto.save(UPLOAD_DIR / foto_nama)
+            foto_nama = secure_filename(f"menu_{tanggal}.jpg")
+            compress_image(foto, UPLOAD_DIR / foto_nama)
 
         data = (
             tanggal, nama_menu, deskripsi, foto_nama,
@@ -373,8 +391,8 @@ def edit_menu(id):
             if ext not in [".jpg", ".jpeg", ".png", ".webp"]:
                 flash("Format foto harus JPG, JPEG, PNG, atau WEBP.", "error")
                 return redirect(request.url)
-            foto_nama = secure_filename(f"menu_{tanggal}{ext}")
-            foto.save(UPLOAD_DIR / foto_nama)
+            foto_nama = secure_filename(f"menu_{tanggal}.jpg")
+            compress_image(foto, UPLOAD_DIR / foto_nama)
 
         conn = get_db()
         try:
