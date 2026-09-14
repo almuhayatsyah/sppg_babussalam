@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, send_file
+from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, send_file, session
+from functools import wraps
 from pathlib import Path
 import sqlite3
 import qrcode
@@ -15,7 +16,15 @@ UPLOAD_DIR = BASE_DIR / "static" / "uploads"
 FOOD_PHOTO_DIR = BASE_DIR / "static" / "food_photos"
 
 app = Flask(__name__)
-app.secret_key = "mbg-secret-key"
+app.secret_key = os.environ.get("SECRET_KEY", os.urandom(24))
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('logged_in'):
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.template_filter('substr')
 def substr_filter(s, start, length):
@@ -144,6 +153,26 @@ def create_permanent_qr():
 
     return desired_url
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        password = request.form.get('password')
+        admin_pass = os.environ.get("ADMIN_PASSWORD", "admin123")
+        if password == admin_pass:
+            session['logged_in'] = True
+            flash("Berhasil login.", "success")
+            next_page = request.args.get('next')
+            return redirect(next_page or url_for('admin'))
+        else:
+            flash("Password salah.", "error")
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    flash("Berhasil logout.", "success")
+    return redirect(url_for('login'))
+
 @app.route("/")
 def index():
     conn = get_db()
@@ -154,6 +183,7 @@ def index():
     return render_template("index.html", menus=menus)
 
 @app.route("/admin")
+@login_required
 def admin():
     tanggal_dari = request.args.get("dari", "").strip()
     tanggal_sampai = request.args.get("sampai", "").strip()
@@ -212,6 +242,7 @@ def admin():
     )
 
 @app.route("/admin/rekap/<tanggal>")
+@login_required
 def admin_rekap(tanggal):
     conn = get_db()
     menu = conn.execute("SELECT * FROM menu_mbg WHERE tanggal=?", (tanggal,)).fetchone()
@@ -265,6 +296,7 @@ def save_menu_items(conn, menu_id, names, files=None, old_rows=None):
         conn.execute("INSERT INTO menu_item(menu_id,urutan,nama,foto) VALUES(?,?,?,?)", (menu_id, idx, nama, foto_nama))
 
 @app.route("/admin/tambah", methods=["GET", "POST"])
+@login_required
 def tambah_menu():
     if request.method == "POST":
         tanggal = request.form["tanggal"]
@@ -319,6 +351,7 @@ def tambah_menu():
     return render_template("form.html", menu=None, items_for_form=[], judul="Tambah Menu MBG")
 
 @app.route("/admin/edit/<int:id>", methods=["GET", "POST"])
+@login_required
 def edit_menu(id):
     conn = get_db()
     menu = conn.execute("SELECT * FROM menu_mbg WHERE id=?", (id,)).fetchone()
@@ -380,6 +413,7 @@ def edit_menu(id):
     return render_template("form.html", menu=menu, items_for_form=[dict(x) for x in old_items], judul="Edit Menu MBG")
 
 @app.post("/admin/hapus/<int:id>")
+@login_required
 def hapus_menu(id):
     conn = get_db()
     menu = conn.execute("SELECT foto FROM menu_mbg WHERE id=?", (id,)).fetchone()
@@ -505,4 +539,5 @@ if __name__ == "__main__":
     print(" Admin       : http://127.0.0.1:5000/admin")
     print(" Laptop      : http://127.0.0.1:5000")
     print("=" * 55)
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    debug_mode = os.environ.get("FLASK_DEBUG", "False").lower() in ("true", "1", "t")
+    app.run(host="0.0.0.0", port=5000, debug=debug_mode)

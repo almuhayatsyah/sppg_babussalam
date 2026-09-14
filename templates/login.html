@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - Sistem Menu MBG</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f4; margin: 0; }
+        .login-box { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h1 { text-align: center; color: #333; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; color: #666; }
+        input[type="password"] { width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 0.75rem; background-color: #007bff; color: white; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .flash { padding: 1rem; margin-bottom: 1rem; border-radius: 4px; text-align: center; }
+        .flash.success { background-color: #d4edda; color: #155724; }
+        .flash.error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h1>Login Admin</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST">
+            <div class="form-group">
+                <label for="password">Password Admin:</label>
+                <input type="password" id="password" name="password" required autofocus>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

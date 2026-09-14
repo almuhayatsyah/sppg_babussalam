@@ -8,7 +8,10 @@
       <h1>Dashboard Menu MBG</h1>
       <p>Kelola menu harian dan lihat kembali rekapan berdasarkan tanggal.</p>
     </div>
-    <a class="btn add-menu" href="{{ url_for('tambah_menu') }}">＋ Tambah Menu</a>
+    <div style="display: flex; gap: 10px;">
+        <a class="btn add-menu" href="{{ url_for('tambah_menu') }}">＋ Tambah Menu</a>
+        <a class="btn" style="background: #dc3545;" href="{{ url_for('logout') }}">Logout</a>
+    </div>
   </header>
 
   <section class="stats-grid">
