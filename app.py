@@ -39,8 +39,10 @@ UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 FOOD_PHOTO_DIR.mkdir(parents=True, exist_ok=True)
 
 def safe_float(value, default=0.0):
-    """Konversi nilai ke float dengan aman; kembalikan default jika gagal."""
+    """Konversi nilai ke float dengan aman; mendukung koma sebagai pemisah desimal."""
     try:
+        if value:
+            value = str(value).replace(',', '.')
         return float(value or 0)
     except (ValueError, TypeError):
         return default
