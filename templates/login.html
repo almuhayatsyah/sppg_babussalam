@@ -1,40 +1,222 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Admin - Sistem Menu MBG</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f4; margin: 0; }
-        .login-box { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        h1 { text-align: center; color: #333; }
-        .form-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 0.5rem; color: #666; }
-        input[type="password"] { width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 0.75rem; background-color: #007bff; color: white; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; }
-        button:hover { background-color: #0056b3; }
-        .flash { padding: 1rem; margin-bottom: 1rem; border-radius: 4px; text-align: center; }
-        .flash.success { background-color: #d4edda; color: #155724; }
-        .flash.error { background-color: #f8d7da; color: #721c24; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Inter, Arial, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(180deg, #edf4fb 0%, #e8f0f8 100%);
+        padding: 20px;
+      }
+      .login-wrap {
+        width: 100%;
+        max-width: 420px;
+      }
+      .brand-header {
+        text-align: center;
+        margin-bottom: 22px;
+      }
+      .brand-logo {
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #0b60b3, #0a78d1);
+        border-radius: 16px;
+        display: inline-grid;
+        place-items: center;
+        margin-bottom: 12px;
+        box-shadow: 0 8px 24px rgba(7, 89, 174, 0.3);
+      }
+      .brand-logo svg {
+        width: 28px;
+        height: 28px;
+        color: #fff;
+      }
+      .brand-name {
+        font-size: 11px;
+        font-weight: 900;
+        color: #0759ae;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: block;
+      }
+      .brand-title {
+        font-size: 22px;
+        font-weight: 800;
+        color: #0d3660;
+        letter-spacing: -0.5px;
+        margin-top: 4px;
+      }
+      .login-card {
+        background: #fff;
+        border: 1px solid #dde8f3;
+        border-radius: 22px;
+        padding: 30px 28px;
+        box-shadow: 0 12px 34px rgba(16, 61, 109, 0.1);
+      }
+      .card-title {
+        font-size: 11px;
+        font-weight: 800;
+        color: #6d7f8f;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .card-title::before {
+        content: "";
+        display: inline-block;
+        width: 3px;
+        height: 14px;
+        background: linear-gradient(135deg, #0b60b3, #0a78d1);
+        border-radius: 2px;
+      }
+      .flash {
+        padding: 11px 13px;
+        border-radius: 11px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+      .flash.error {
+        background: #fff0ee;
+        color: #b83a2d;
+        border: 1px solid #fcd4cf;
+      }
+      .flash.success {
+        background: #eaf8ef;
+        color: #237244;
+        border: 1px solid #ccebd8;
+      }
+      label {
+        display: block;
+        font-size: 11px;
+        font-weight: 800;
+        color: #36556d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 7px;
+      }
+      .input-wrap {
+        margin-bottom: 20px;
+      }
+      input[type="password"] {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #d7e6f5;
+        border-radius: 12px;
+        font-size: 14px;
+        font-family: inherit;
+        color: #13395d;
+        background: #f7fafd;
+        transition: all 0.2s ease;
+      }
+      input[type="password"]:focus {
+        outline: none;
+        border-color: #0759ae;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(7, 89, 174, 0.12);
+      }
+      input[type="password"]::placeholder {
+        color: #a3b5c4;
+      }
+      button[type="submit"] {
+        width: 100%;
+        padding: 13px;
+        background: linear-gradient(135deg, #0b60b3, #0a78d1);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 800;
+        font-family: inherit;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(7, 89, 174, 0.28);
+        transition: all 0.2s ease;
+      }
+      button[type="submit"]:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 28px rgba(7, 89, 174, 0.35);
+      }
+      button[type="submit"]:active {
+        transform: scale(0.98);
+      }
+      .login-footer {
+        text-align: center;
+        margin-top: 16px;
+      }
+      .login-footer span {
+        display: inline-block;
+        background: #eef5fc;
+        color: #4a6f8d;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 10px;
+      }
     </style>
-</head>
-<body>
-    <div class="login-box">
-        <h1>Login Admin</h1>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="flash {{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+  </head>
+  <body>
+    <div class="login-wrap">
+      <div class="brand-header">
+        <div class="brand-logo">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
+            />
+          </svg>
+        </div>
+        <span class="brand-name">SPPG Babussalam</span>
+        <div class="brand-title">Sistem Menu MBG</div>
+      </div>
+      <div class="login-card">
+        <div class="card-title">Akses Administrator</div>
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %}{% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}{% endif %} {% endwith %}
         <form method="POST">
-            <div class="form-group">
-                <label for="password">Password Admin:</label>
-                <input type="password" id="password" name="password" required autofocus>
-            </div>
-            <button type="submit">Login</button>
+          <label for="password">Password Admin</label>
+          <div class="input-wrap">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Masukkan password..."
+              required
+              autofocus
+            />
+          </div>
+          <button type="submit">Masuk ke Dashboard &rarr;</button>
         </form>
+      </div>
+      <div class="login-footer">
+        <span>&#128274; Halaman ini hanya untuk administrator</span>
+      </div>
     </div>
-</body>
+  </body>
 </html>

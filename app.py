@@ -361,12 +361,17 @@ def tambah_menu():
             now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             conn.execute("UPDATE menu_mbg SET updated_at=? WHERE tanggal=?", (now, tanggal))
             conn.commit()
-            conn.close()
             create_permanent_qr()
             flash("Menu berhasil disimpan. QR permanen tetap sama dan menampilkan menu terakhir yang diperbarui.", "success")
             return redirect(url_for("admin_rekap", tanggal=tanggal))
         except sqlite3.IntegrityError:
+            conn.rollback()
             flash("Menu untuk tanggal tersebut sudah ada. Gunakan Edit.", "error")
+        except sqlite3.OperationalError:
+            conn.rollback()
+            flash("Database sedang sibuk, coba lagi.", "error")
+        finally:
+            conn.close()
 
     return render_template("form.html", menu=None, items_for_form=[], judul="Tambah Menu MBG")
 
@@ -422,13 +427,17 @@ def edit_menu(id):
             now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             conn.execute("UPDATE menu_mbg SET updated_at=? WHERE id=?", (now, id))
             conn.commit()
-            conn.close()
             create_permanent_qr()
             flash("Menu diperbarui. QR permanen tetap sama dan otomatis menampilkan pembaruan terbaru.", "success")
             return redirect(url_for("admin_rekap", tanggal=tanggal))
         except sqlite3.IntegrityError:
-            conn.close()
+            conn.rollback()
             flash("Tanggal tersebut sudah memiliki menu lain.", "error")
+        except sqlite3.OperationalError as e:
+            conn.rollback()
+            flash(f"Database sedang sibuk, coba lagi.", "error")
+        finally:
+            conn.close()
 
     return render_template("form.html", menu=menu, items_for_form=[dict(x) for x in old_items], judul="Edit Menu MBG")
 
