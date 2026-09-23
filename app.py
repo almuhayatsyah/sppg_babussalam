@@ -307,7 +307,8 @@ def save_menu_items(conn, menu_id, names, files=None, old_rows=None):
             ext = Path(uploaded.filename).suffix.lower()
             if ext not in ['.jpg', '.jpeg', '.png', '.webp']:
                 raise ValueError('Format foto makanan harus JPG, JPEG, PNG, atau WEBP.')
-            foto_nama = secure_filename(f'menuitem_{menu_id}_{idx}.jpg')
+            ts = datetime.now().strftime('%Y%m%d%H%M%S')
+            foto_nama = secure_filename(f'menuitem_{menu_id}_{idx}_{ts}.jpg')
             compress_image(uploaded, UPLOAD_DIR / foto_nama)
         elif idx <= len(old_rows) and old_rows[idx-1]['nama'].strip().lower() == nama.strip().lower() and old_rows[idx-1]['foto']:
             foto_nama = old_rows[idx-1]['foto']
@@ -398,7 +399,8 @@ def edit_menu(id):
             if ext not in [".jpg", ".jpeg", ".png", ".webp"]:
                 flash("Format foto harus JPG, JPEG, PNG, atau WEBP.", "error")
                 return redirect(request.url)
-            foto_nama = secure_filename(f"menu_{tanggal}.jpg")
+            ts = datetime.now().strftime('%Y%m%d%H%M%S')
+            foto_nama = secure_filename(f"menu_{tanggal}_{ts}.jpg")
             compress_image(foto, UPLOAD_DIR / foto_nama)
 
         conn = get_db()
