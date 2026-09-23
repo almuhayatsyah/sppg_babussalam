@@ -90,6 +90,17 @@ env.addFilter('format', (value, fmt) => {
   return String(value);
 });
 env.addFilter('round', (value, digits = 0) => Number(Number(value || 0).toFixed(Number(digits))));
+env.addFilter('gizi', value => {
+  if (value === null || value === undefined || value === '') return '';
+  const str = String(value).replace(',', '.').trim();
+  const num = Number(str);
+  if (isNaN(num)) return String(value);
+  if (Number.isInteger(num)) return String(num);
+  const rounded = Math.round(num * 10) / 10;
+  if (Number.isInteger(rounded)) return String(rounded);
+  return String(rounded).replace('.', ',');
+});
+env.addFilter('substr', (value, start, length) => String(value ?? '').substring(Number(start) || 0, (Number(start) || 0) + Number(length)));
 
 env.addGlobal('url_for', function(route, kwargs = {}) {
   const routes = {

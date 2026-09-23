@@ -20,6 +20,23 @@ FOOD_PHOTO_DIR = BASE_DIR / "static" / "food_photos"
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", os.urandom(24))
 
+@app.template_filter('gizi')
+def format_gizi(value):
+    """Tampilkan angka gizi dengan koma sebagai pemisah desimal."""
+    if value is None or value == '':
+        return ''
+    try:
+        s_val = str(value).replace(',', '.').strip()
+        f = float(s_val)
+        if f.is_integer():
+            return str(int(f))
+        res = f"{round(f, 1):.1f}".replace('.', ',')
+        if res.endswith(',0'):
+            return res[:-2]
+        return res
+    except (ValueError, TypeError):
+        return str(value)
+
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):

@@ -22,8 +22,8 @@
         <div class="detail-content">
           <div class="detail-section"><h2>Menu Makanan</h2><div class="admin-menu-list">{% if items %}{% for item in items %}<div class="admin-menu-row"><span>{{ '%02d'|format(loop.index) }}</span><strong>{{ item['nama'] }}</strong></div>{% endfor %}{% else %}{% for item in menu['nama_menu'].replace(';', ',').split(',') %}{% if item|trim %}<div class="admin-menu-row"><span>{{ '%02d'|format(loop.index) }}</span><strong>{{ item|trim }}</strong></div>{% endif %}{% endfor %}{% endif %}</div>{% if menu['deskripsi'] %}<p class="detail-description">{{ menu['deskripsi'] }}</p>{% endif %}</div>
           <div class="nutrition-admin-grid">
-            <div class="nutrition-admin"><h3>Porsi Kecil</h3><p>Energi <b>{{ menu['energi_kecil'] }} kkal</b></p><p>Protein <b>{{ menu['protein_kecil'] }} g</b></p><p>Lemak <b>{{ menu['lemak_kecil'] }} g</b></p><p>Karbohidrat <b>{{ menu['karbo_kecil'] }} g</b></p><p>Serat <b>{{ menu['serat_kecil'] }} g</b></p></div>
-            <div class="nutrition-admin"><h3>Porsi Besar</h3><p>Energi <b>{{ menu['energi_besar'] }} kkal</b></p><p>Protein <b>{{ menu['protein_besar'] }} g</b></p><p>Lemak <b>{{ menu['lemak_besar'] }} g</b></p><p>Karbohidrat <b>{{ menu['karbo_besar'] }} g</b></p><p>Serat <b>{{ menu['serat_besar'] }} g</b></p></div>
+            <div class="nutrition-admin"><h3>Porsi Kecil</h3><p>Energi <b>{{ menu['energi_kecil']|gizi }} kkal</b></p><p>Protein <b>{{ menu['protein_kecil']|gizi }} g</b></p><p>Lemak <b>{{ menu['lemak_kecil']|gizi }} g</b></p><p>Karbohidrat <b>{{ menu['karbo_kecil']|gizi }} g</b></p><p>Serat <b>{{ menu['serat_kecil']|gizi }} g</b></p></div>
+            <div class="nutrition-admin"><h3>Porsi Besar</h3><p>Energi <b>{{ menu['energi_besar']|gizi }} kkal</b></p><p>Protein <b>{{ menu['protein_besar']|gizi }} g</b></p><p>Lemak <b>{{ menu['lemak_besar']|gizi }} g</b></p><p>Karbohidrat <b>{{ menu['karbo_besar']|gizi }} g</b></p><p>Serat <b>{{ menu['serat_besar']|gizi }} g</b></p></div>
           </div>
         </div>
       </div>

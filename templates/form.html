@@ -43,11 +43,11 @@
         </div>
       </div>
       <div class="nutrition-input-grid">
-        <label><span>Energi</span><small>kkal</small><input type="text" inputmode="decimal" name="energi_kecil" value="{{menu['energi_kecil'] if menu else ''}}" placeholder="Contoh: 517,6"></label>
-        <label><span>Protein</span><small>gram</small><input type="text" inputmode="decimal" name="protein_kecil" value="{{menu['protein_kecil'] if menu else ''}}" placeholder="Contoh: 26"></label>
-        <label><span>Lemak</span><small>gram</small><input type="text" inputmode="decimal" name="lemak_kecil" value="{{menu['lemak_kecil'] if menu else ''}}" placeholder="Contoh: 19,7"></label>
-        <label><span>Karbohidrat</span><small>gram</small><input type="text" inputmode="decimal" name="karbo_kecil" value="{{menu['karbo_kecil'] if menu else ''}}" placeholder="Contoh: 58,8"></label>
-        <label><span>Serat</span><small>gram</small><input type="text" inputmode="decimal" name="serat_kecil" value="{{menu['serat_kecil'] if menu else ''}}" placeholder="Contoh: 2,4"></label>
+        <label><span>Energi</span><small>kkal</small><input type="text" inputmode="decimal" name="energi_kecil" value="{{ (menu['energi_kecil']|gizi) if menu else '' }}" placeholder="Contoh: 517,6"></label>
+        <label><span>Protein</span><small>gram</small><input type="text" inputmode="decimal" name="protein_kecil" value="{{ (menu['protein_kecil']|gizi) if menu else '' }}" placeholder="Contoh: 26"></label>
+        <label><span>Lemak</span><small>gram</small><input type="text" inputmode="decimal" name="lemak_kecil" value="{{ (menu['lemak_kecil']|gizi) if menu else '' }}" placeholder="Contoh: 19,7"></label>
+        <label><span>Karbohidrat</span><small>gram</small><input type="text" inputmode="decimal" name="karbo_kecil" value="{{ (menu['karbo_kecil']|gizi) if menu else '' }}" placeholder="Contoh: 58,8"></label>
+        <label><span>Serat</span><small>gram</small><input type="text" inputmode="decimal" name="serat_kecil" value="{{ (menu['serat_kecil']|gizi) if menu else '' }}" placeholder="Contoh: 2,4"></label>
       </div>
     </section>
 
@@ -60,11 +60,11 @@
         </div>
       </div>
       <div class="nutrition-input-grid">
-        <label><span>Energi</span><small>kkal</small><input type="text" inputmode="decimal" name="energi_besar" value="{{menu['energi_besar'] if menu else ''}}" placeholder="Contoh: 767,7"></label>
-        <label><span>Protein</span><small>gram</small><input type="text" inputmode="decimal" name="protein_besar" value="{{menu['protein_besar'] if menu else ''}}" placeholder="Contoh: 36,1"></label>
-        <label><span>Lemak</span><small>gram</small><input type="text" inputmode="decimal" name="lemak_besar" value="{{menu['lemak_besar'] if menu else ''}}" placeholder="Contoh: 22,6"></label>
-        <label><span>Karbohidrat</span><small>gram</small><input type="text" inputmode="decimal" name="karbo_besar" value="{{menu['karbo_besar'] if menu else ''}}" placeholder="Contoh: 104,5"></label>
-        <label><span>Serat</span><small>gram</small><input type="text" inputmode="decimal" name="serat_besar" value="{{menu['serat_besar'] if menu else ''}}" placeholder="Contoh: 3,3"></label>
+        <label><span>Energi</span><small>kkal</small><input type="text" inputmode="decimal" name="energi_besar" value="{{ (menu['energi_besar']|gizi) if menu else '' }}" placeholder="Contoh: 767,7"></label>
+        <label><span>Protein</span><small>gram</small><input type="text" inputmode="decimal" name="protein_besar" value="{{ (menu['protein_besar']|gizi) if menu else '' }}" placeholder="Contoh: 36,1"></label>
+        <label><span>Lemak</span><small>gram</small><input type="text" inputmode="decimal" name="lemak_besar" value="{{ (menu['lemak_besar']|gizi) if menu else '' }}" placeholder="Contoh: 22,6"></label>
+        <label><span>Karbohidrat</span><small>gram</small><input type="text" inputmode="decimal" name="karbo_besar" value="{{ (menu['karbo_besar']|gizi) if menu else '' }}" placeholder="Contoh: 104,5"></label>
+        <label><span>Serat</span><small>gram</small><input type="text" inputmode="decimal" name="serat_besar" value="{{ (menu['serat_besar']|gizi) if menu else '' }}" placeholder="Contoh: 3,3"></label>
       </div>
     </section>
 

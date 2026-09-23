@@ -78,28 +78,28 @@
     <div class="nutrition-panel" id="nutrition-small">
       <div class="energy-card nutri-card nutrition-animate" data-nutri-reveal style="--nutri-delay:40ms">
         <div class="metric-symbol energy-symbol">ϟ</div>
-        <div><span class="metric-label">Energi</span><strong>{{ menu['energi_kecil']|round(1) }}</strong><em>kkal</em><small>Kebutuhan energi dalam satu porsi</small></div>
+        <div><span class="metric-label">Energi</span><strong>{{ menu['energi_kecil']|gizi }}</strong><em>kkal</em><small>Kebutuhan energi dalam satu porsi</small></div>
         <div class="energy-wave"></div>
       </div>
       <div class="nutrition-grid">
-        <div class="nutri-card protein-card nutrition-animate" data-nutri-reveal style="--nutri-delay:80ms"><div class="metric-symbol">◈</div><div><span>Protein</span><strong>{{ menu['protein_kecil']|round(1) }}</strong><em>gram</em><small>Membantu pertumbuhan dan perbaikan jaringan tubuh</small></div></div>
-        <div class="nutri-card fat-card nutrition-animate" data-nutri-reveal style="--nutri-delay:140ms"><div class="metric-symbol">●</div><div><span>Lemak</span><strong>{{ menu['lemak_kecil']|round(1) }}</strong><em>gram</em><small>Sumber energi dan membantu penyerapan vitamin</small></div></div>
-        <div class="nutri-card carb-card nutrition-animate" data-nutri-reveal style="--nutri-delay:200ms"><div class="metric-symbol">◆</div><div><span>Karbohidrat</span><strong>{{ menu['karbo_kecil']|round(1) }}</strong><em>gram</em><small>Sumber energi utama untuk aktivitas sehari-hari</small></div></div>
-        <div class="nutri-card fiber-card nutrition-animate" data-nutri-reveal style="--nutri-delay:260ms"><div class="metric-symbol">❧</div><div><span>Serat</span><strong>{{ menu['serat_kecil']|round(1) }}</strong><em>gram</em><small>Membantu pencernaan dan menjaga kesehatan usus</small></div></div>
+        <div class="nutri-card protein-card nutrition-animate" data-nutri-reveal style="--nutri-delay:80ms"><div class="metric-symbol">◈</div><div><span>Protein</span><strong>{{ menu['protein_kecil']|gizi }}</strong><em>gram</em><small>Membantu pertumbuhan dan perbaikan jaringan tubuh</small></div></div>
+        <div class="nutri-card fat-card nutrition-animate" data-nutri-reveal style="--nutri-delay:140ms"><div class="metric-symbol">●</div><div><span>Lemak</span><strong>{{ menu['lemak_kecil']|gizi }}</strong><em>gram</em><small>Sumber energi dan membantu penyerapan vitamin</small></div></div>
+        <div class="nutri-card carb-card nutrition-animate" data-nutri-reveal style="--nutri-delay:200ms"><div class="metric-symbol">◆</div><div><span>Karbohidrat</span><strong>{{ menu['karbo_kecil']|gizi }}</strong><em>gram</em><small>Sumber energi utama untuk aktivitas sehari-hari</small></div></div>
+        <div class="nutri-card fiber-card nutrition-animate" data-nutri-reveal style="--nutri-delay:260ms"><div class="metric-symbol">❧</div><div><span>Serat</span><strong>{{ menu['serat_kecil']|gizi }}</strong><em>gram</em><small>Membantu pencernaan dan menjaga kesehatan usus</small></div></div>
       </div>
     </div>
 
     <div class="nutrition-panel hidden" id="nutrition-large">
       <div class="energy-card nutri-card nutrition-animate" data-nutri-reveal style="--nutri-delay:40ms">
         <div class="metric-symbol energy-symbol">ϟ</div>
-        <div><span class="metric-label">Energi</span><strong>{{ menu['energi_besar']|round(1) }}</strong><em>kkal</em><small>Kebutuhan energi dalam satu porsi</small></div>
+        <div><span class="metric-label">Energi</span><strong>{{ menu['energi_besar']|gizi }}</strong><em>kkal</em><small>Kebutuhan energi dalam satu porsi</small></div>
         <div class="energy-wave"></div>
       </div>
       <div class="nutrition-grid">
-        <div class="nutri-card protein-card nutrition-animate" data-nutri-reveal style="--nutri-delay:80ms"><div class="metric-symbol">◈</div><div><span>Protein</span><strong>{{ menu['protein_besar']|round(1) }}</strong><em>gram</em><small>Membantu pertumbuhan dan perbaikan jaringan tubuh</small></div></div>
-        <div class="nutri-card fat-card nutrition-animate" data-nutri-reveal style="--nutri-delay:140ms"><div class="metric-symbol">●</div><div><span>Lemak</span><strong>{{ menu['lemak_besar']|round(1) }}</strong><em>gram</em><small>Sumber energi dan membantu penyerapan vitamin</small></div></div>
-        <div class="nutri-card carb-card nutrition-animate" data-nutri-reveal style="--nutri-delay:200ms"><div class="metric-symbol">◆</div><div><span>Karbohidrat</span><strong>{{ menu['karbo_besar']|round(1) }}</strong><em>gram</em><small>Sumber energi utama untuk aktivitas sehari-hari</small></div></div>
-        <div class="nutri-card fiber-card nutrition-animate" data-nutri-reveal style="--nutri-delay:260ms"><div class="metric-symbol">❧</div><div><span>Serat</span><strong>{{ menu['serat_besar']|round(1) }}</strong><em>gram</em><small>Membantu pencernaan dan menjaga kesehatan usus</small></div></div>
+        <div class="nutri-card protein-card nutrition-animate" data-nutri-reveal style="--nutri-delay:80ms"><div class="metric-symbol">◈</div><div><span>Protein</span><strong>{{ menu['protein_besar']|gizi }}</strong><em>gram</em><small>Membantu pertumbuhan dan perbaikan jaringan tubuh</small></div></div>
+        <div class="nutri-card fat-card nutrition-animate" data-nutri-reveal style="--nutri-delay:140ms"><div class="metric-symbol">●</div><div><span>Lemak</span><strong>{{ menu['lemak_besar']|gizi }}</strong><em>gram</em><small>Sumber energi dan membantu penyerapan vitamin</small></div></div>
+        <div class="nutri-card carb-card nutrition-animate" data-nutri-reveal style="--nutri-delay:200ms"><div class="metric-symbol">◆</div><div><span>Karbohidrat</span><strong>{{ menu['karbo_besar']|gizi }}</strong><em>gram</em><small>Sumber energi utama untuk aktivitas sehari-hari</small></div></div>
+        <div class="nutri-card fiber-card nutrition-animate" data-nutri-reveal style="--nutri-delay:260ms"><div class="metric-symbol">❧</div><div><span>Serat</span><strong>{{ menu['serat_besar']|gizi }}</strong><em>gram</em><small>Membantu pencernaan dan menjaga kesehatan usus</small></div></div>
       </div>
     </div>
   </section>
